@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>LittleIsopods · Hobbyist Showcase</title>
+  <!-- All CSS inline, soft low-saturation palette, cute & clean -->
+  <style>
+    /* Reset & Global */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* 柔和的蓝白配色，主色调 A5CBF7 */
+      --bg-gradient-start: #f8fbff;
+      --bg-gradient-end: #eaf2fc;
+      --card-bg: #fffffffa;
+      --text-main: #3d4a5c;
+      --text-soft: #5c6a7c;
+      --accent-blue: #A5CBF7;
+      --accent-blue-deep: #7AADEB;      /* 稍重的选中色 */
+      --accent-blue-soft: #d4e6fb;
+      --nav-bg: #fffffff0;
+      --shadow-sm: 0 6px 16px -6px rgba(100, 130, 170, 0.15);
+      --shadow-hover: 0 12px 24px -10px rgba(90, 120, 160, 0.22);
+      --border-light: #dce8f5;
+      --radius-card: 28px;
+      --radius-pill: 40px;
+    }
+
+    body {
+      background: linear-gradient(145deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', system-ui, -apple-system, sans-serif;
+      color: var(--text-main);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 0 1.2rem 2.5rem;
+      scroll-behavior: smooth;
+    }
+
+    /* Top Navigation */
+    .navbar {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--nav-bg);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius-pill);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+      transition: box-shadow 0.2s ease;
+      margin-top: 1rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .navbar:hover {
+      box-shadow: var(--shadow-hover);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: #3d4a5c;
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+
+    .logo span {
+      background: var(--accent-blue-soft);
+      padding: 0.2rem 0.8rem;
+      border-radius: 60px;
+      font-size: 1rem;
+      font-weight: 400;
+      color: #4a5a6e;
+      margin-left: 0.3rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.15rem;
+      padding: 0.5rem 1.4rem;
+      border-radius: 40px;
+      color: #4a5a6e;
+      background: transparent;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover {
+      background: #edf4fd;
+      border-color: var(--accent-blue-soft);
+      color: #2e3d50;
+    }
+
+    /* 选中状态：稍重的颜色 A5CBF7 加深版 */
+    .nav-links a.active {
+      background: var(--accent-blue-deep);
+      color: #ffffff;
+      border-color: #6A9FDF;
+      box-shadow: inset 0 1px 4px #ffffff40, 0 4px 10px -4px #7AADEB80;
+    }
+
+    /* Main container */
+    main {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      flex: 1;
+    }
+
+    /* Page section switching */
+    .page-section {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .page-section.active-section {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---------- Home Page ---------- */
+    .hero-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(4px);
+      border-radius: var(--radius-card);
+      padding: 2.5rem 2.2rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+      transition: all 0.2s ease;
+      margin-bottom: 2rem;
+    }
+
+    .hero-card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+
+    .hero-title {
+      font-size: 2.6rem;
+      font-weight: 600;
+      color: #3d4a5c;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-title .emoji-big {
+      font-size: 3rem;
+      filter: drop-shadow(2px 4px 6px #A5CBF7);
+    }
+
+    .hero-sub {
+      font-size: 1.25rem;
+      color: #5c6a7c;
+      margin-bottom: 1.8rem;
+      border-left: 6px solid var(--accent-blue);
+      padding-left: 1.2rem;
+      font-style: italic;
+    }
+
+    .hero-description {
+      font-size: 1.18rem;
+      color: #4a5a6e;
+      margin-bottom: 0.5rem;
+      max-width: 800px;
+      line-height: 1.7;
+    }
+
+    .hero-description strong {
+      background: #e3eefb;
+      padding: 0.1rem 0.5rem;
+      border-radius: 30px;
+      color: #3a506b;
+      font-weight: 600;
+    }
+
+    /* Social Icons */
+    .social-section {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.2rem;
+      margin-top: 2.2rem;
+      padding-top: 1.5rem;
+      border-top: 2px dashed #d4e6fb;
+    }
+
+    .social-label {
+      font-size: 1rem;
+      color: #7c8ba0;
+      letter-spacing: 0.5px;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #eef5fe;
+      color: #4a5a6e;
+      font-size: 1.8rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid #cfe0f2;
+      box-shadow: 0 4px 8px -4px rgba(100, 130, 170, 0.2);
+    }
+
+    .social-link:hover {
+      background: #dceafb;
+      color: #2e3d50;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 16px -8px rgba(90, 120, 160, 0.3);
+      border-color: #A5CBF7;
+    }
+
+    /* Placeholder blank link for social */
+    .social-link[href="#"] {
+      cursor: default;
+    }
+
+    .social-note {
+      font-size: 0.9rem;
+      color: #98a8bb;
+      margin-left: auto;
+      font-style: italic;
+    }
+
+    /* ---------- Isopod Varieties Page ---------- */
+    .variety-header {
+      text-align: center;
+      margin: 0.5rem 0 2rem;
+    }
+
+    .variety-header h2 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: #3d4a5c;
+      background: #eef5fe;
+      display: inline-block;
+      padding: 0.4rem 2rem;
+      border-radius: 60px;
+      border: 1px solid #cfe0f2;
+    }
+
+    .variety-header p {
+      color: #7c8ba0;
+      margin-top: 0.6rem;
+      font-size: 1.1rem;
+    }
+
+    .variety-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.8rem;
+      margin: 2rem 0 1rem;
+    }
+
+    .variety-card {
+      background: var(--card-bg);
+      border-radius: 32px;
+      padding: 2rem 1.2rem 1.8rem;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+      backdrop-filter: blur(2px);
+    }
+
+    .variety-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: scale(1.01);
+      background: #ffffff;
+    }
+
+    .variety-icon {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #eef5fe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      border: 2px solid #cfe0f2;
+      box-shadow: inset 0 2px 8px #ffffff;
+      transition: all 0.2s ease;
+    }
+
+    .variety-card:hover .variety-icon {
+      background: #dceafb;
+      transform: rotate(3deg);
+    }
+
+    .variety-name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #3d4a5c;
+      letter-spacing: -0.3px;
+      background: #eef5fe;
+      padding: 0.2rem 1rem;
+      border-radius: 50px;
+      display: inline-block;
+      border: 1px solid #cfe0f2;
+    }
+
+    .variety-desc {
+      font-size: 0.95rem;
+      color: #5c6a7c;
+      line-height: 1.5;
+    }
+
+    .variety-tag {
+      font-size: 0.85rem;
+      background: #dceafb;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      color: #3a506b;
+      margin-top: 0.4rem;
+      border: 1px solid #b8d4f0;
+    }
+
+    /* Footer - 底部使用 A5CBF7 */
+    .footer {
+      max-width: 1200px;
+      margin: 3.5rem auto 1rem;
+      text-align: center;
+      color: #3d4a5c;
+      font-size: 0.95rem;
+      background: #A5CBF7;
+      padding: 1.6rem 1.5rem;
+      border-radius: var(--radius-pill);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .footer > div:last-child {
+      font-size: 0.85rem;
+      opacity: 0.85;
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      body {
+        padding: 0 0.8rem 1.8rem;
+      }
+
+      .navbar {
+        padding: 0.9rem 1rem;
+        border-radius: 36px;
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+      }
+
+      .nav-links a {
+        padding: 0.4rem 1rem;
+        font-size: 1rem;
+      }
+
+      .hero-card {
+        padding: 1.8rem 1.2rem;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .hero-title .emoji-big {
+        font-size: 2.4rem;
+      }
+
+      .hero-sub {
+        font-size: 1.1rem;
+      }
+
+      .hero-description {
+        font-size: 1rem;
+      }
+
+      .variety-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .variety-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 2.4rem;
+      }
+
+      .variety-name {
+        font-size: 1.2rem;
+      }
+
+      .social-section {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .social-note {
+        margin-left: 0;
+        align-self: flex-end;
+      }
+
+      .footer {
+        padding: 1.4rem 1rem;
+        border-radius: 32px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .variety-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        justify-content: center;
+      }
+
+      .social-icons {
+        gap: 0.8rem;
+      }
+
+      .social-link {
+        width: 48px;
+        height: 48px;
+        font-size: 1.6rem;
+      }
+    }
+
+    .social-link i {
+      font-style: normal;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="logo">
+      🐞 LittleIsopods <span>hobbyist</span>
+    </div>
+    <div class="nav-links">
+      <a href="#" class="nav-link active" data-page="home">Home</a>
+      <a href="#" class="nav-link" data-page="variety">Isopod Varieties</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Home Page -->
+    <section id="home" class="page-section active-section">
+      <div class="hero-card">
+        <div class="hero-title">
+          <span class="emoji-big">🐛</span> Hi, I'm an Isopod Hobbyist
+        </div>
+        <div class="hero-sub">Tiny woodlice, big world</div>
+        <div class="hero-description">
+          Welcome to LittleIsopods! I'm an amateur enthusiast obsessed with <strong>isopods (woodlice)</strong>.
+          It all started when I found a little pill bug curled up under a flowerpot — I was instantly captivated
+          by these charming little crustaceans. They may be small, but they're incredible decomposers in nature.
+          Here I share the species I keep, my observations, and hope to connect with fellow hobbyists. 🐚✨
+        </div>
+        <!-- Social Icons: Instagram, Facebook, Mail -->
+        <div class="social-section">
+          <span class="social-label">Find me:</span>
+          <div class="social-icons">
+            <!-- Instagram link placeholder -->
+            <a href="#" class="social-link" aria-label="Instagram" title="Instagram (placeholder, replace with real link)">
+              <i>📷</i>
+            </a>
+            <!-- Facebook link placeholder -->
+            <a href="#" class="social-link" aria-label="Facebook" title="Facebook (placeholder, replace with real link)">
+              <i>📘</i>
+            </a>
+            <!-- Mail link placeholder -->
+            <a href="#" class="social-link" aria-label="Email" title="Email (placeholder, replace with real link)">
+              <i>✉️</i>
+            </a>
+          </div>
+          <span class="social-note">links are placeholders · replace with yours</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Isopod Varieties Page -->
+    <section id="variety" class="page-section">
+      <div class="variety-header">
+        <h2>🔍 Isopod Varieties</h2>
+        <p>Four common groups · A hobbyist's observations</p>
+      </div>
+
+      <div class="variety-grid">
+        <!-- 1. Armadillidium -->
+        <div class="variety-card">
+          <div class="variety-icon">⚪</div>
+          <div class="variety-name">Armadillidium</div>
+          <div class="variety-desc">Pill bugs that can roll into a perfect ball — the classic "roly-poly".</div>
+          <span class="variety-tag">Rolling experts</span>
+        </div>
+
+        <!-- 2. Cubaris -->
+        <div class="variety-card">
+          <div class="variety-icon">🟤</div>
+          <div class="variety-name">Cubaris</div>
+          <div class="variety-desc">Diverse shapes and often colorful; very popular among hobbyists.</div>
+          <span class="variety-tag">Colorful gems</span>
+        </div>
+
+        <!-- 3. Porcellio -->
+        <div class="variety-card">
+          <div class="variety-icon">🟤</div>
+          <div class="variety-name">Porcellio</div>
+          <div class="variety-desc">Common rough woodlice, flatter body, cannot roll into a complete ball.</div>
+          <span class="variety-tag">Flat bodies</span>
+        </div>
+
+        <!-- 4. Altro -->
+        <div class="variety-card">
+          <div class="variety-icon">✨</div>
+          <div class="variety-name">Altro</div>
+          <div class="variety-desc">Other genera and species, including rare and unidentified isopods.</div>
+          <span class="variety-tag">Other species</span>
+        </div>
+      </div>
+
+      <p style="text-align: center; color: #98a8bb; font-size: 0.95rem; margin-top: 1.5rem; letter-spacing: 0.3px;">
+        🐚 Every genus has its own charm — let's share the love～
+      </p>
+    </section>
+  </main>
+
+  <!-- Footer - 底部使用 A5CBF7 -->
+  <footer class="footer">
+    <div style="font-weight: 500;">© 2025 LittleIsopods · A cozy corner for hobbyists</div>
+    <div>Instagram · Facebook · Email links are placeholders · feel free to replace</div>
+  </footer>
+
+  <!-- Inline JavaScript: page switching -->
+  <script>
+    (function() {
+      const navLinks = document.querySelectorAll('.nav-link');
+      const sections = {
+        home: document.getElementById('home'),
+        variety: document.getElementById('variety')
+      };
+
+      function switchPage(pageId) {
+        Object.values(sections).forEach(section => {
+          if (section) {
+            section.classList.remove('active-section');
+          }
+        });
+
+        const targetSection = sections[pageId];
+        if (targetSection) {
+          targetSection.classList.add('active-section');
+        }
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.dataset.page === pageId) {
+            link.classList.add('active');
+          }
+        });
+
+        if (history.pushState) {
+          history.pushState(null, '', `#${pageId}`);
+        } else {
+          location.hash = `#${pageId}`;
+        }
+      }
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const pageId = link.dataset.page;
+          if (pageId) {
+            switchPage(pageId);
+          }
+        });
+      });
+
+      window.addEventListener('load', () => {
+        const hash = window.location.hash.substring(1);
+        if (hash === 'variety') {
+          switchPage('variety');
+        } else {
+          switchPage('home');
+        }
+      });
+
+      window.addEventListener('hashchange', () => {
+        const hash = window.location.hash.substring(1);
+        if (hash === 'variety') {
+          switchPage('variety');
+        } else if (hash === 'home' || hash === '') {
+          switchPage('home');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
